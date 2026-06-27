@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, session, flash
+from werkzeug.security import generate_password_hash, check_password_hash
 import sqlite3
 import os
 from datetime import datetime
@@ -290,9 +291,9 @@ def fazer_login():
     cursor.execute(
         """
         SELECT * FROM usuarios
-        WHERE usuario = ? AND senha = ?
+        WHERE usuario = ?
         """,
-        (usuario, senha)
+        (usuario,)
     )
 
     usuario_encontrado = cursor.fetchone()
@@ -300,11 +301,15 @@ def fazer_login():
     conn.close()
 
     if usuario_encontrado:
-        session["usuario"] = usuario
-        return redirect("/")
+
+        senha_salva = usuario_encontrado[2]
+
+        if check_password_hash(senha_salva, senha):
+
+            session["usuario"] = usuario
+            return redirect("/")
 
     return "Usuário ou senha incorretos"
-
 
 @app.route("/logout")
 def logout():
@@ -319,6 +324,8 @@ def cadastrar_usuario():
     usuario = request.form["usuario"]
     senha = request.form["senha"]
 
+    senha_hash = generate_password_hash(senha)
+
     conn = sqlite3.connect(CAMINHO_BANCO)
     cursor = conn.cursor()
 
@@ -327,7 +334,7 @@ def cadastrar_usuario():
         INSERT INTO usuarios (usuario, senha)
         VALUES (?, ?)
         """,
-        (usuario, senha)
+        (usuario, senha_hash)
     )
 
     conn.commit()
