@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime, timedelta
 import sqlite3
 import os
 from datetime import datetime
@@ -17,7 +18,7 @@ CAMINHO_BANCO = os.path.join(
 conn = sqlite3.connect(CAMINHO_BANCO)
 cursor = conn.cursor()
 
-cursor.execute("""
+("""
 CREATE TABLE IF NOT EXISTS clientes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
@@ -35,8 +36,23 @@ CREATE TABLE IF NOT EXISTS usuarios (
 )
 """)
 
+try:
+    cursor.execute("""
+    ALTER TABLE usuarios
+    ADD COLUMN is_admin INTEGER DEFAULT 0
+    """)
+except:
+    pass
+
+cursor.execute("""
+UPDATE usuarios
+SET is_admin = 1
+WHERE usuario = 'admin'
+""")
+
 conn.commit()
 conn.close()
+
 
 conn = sqlite3.connect(CAMINHO_BANCO)
 cursor = conn.cursor()
@@ -49,8 +65,17 @@ try:
 except:
     pass
 
+try:
+    cursor.execute("""
+    ALTER TABLE usuarios
+    ADD COLUMN data_expiracao TEXT
+    """)
+except:
+    pass
+
 conn.commit()
 conn.close()
+
 
 
 @app.route("/")
@@ -307,6 +332,7 @@ def fazer_login():
         if check_password_hash(senha_salva, senha):
 
             session["usuario"] = usuario
+            session["is_admin"] = usuario_encontrado[3]
             return redirect("/")
 
     return "Usuário ou senha incorretos"
@@ -326,15 +352,24 @@ def cadastrar_usuario():
 
     senha_hash = generate_password_hash(senha)
 
+    data_expiracao = (
+        datetime.now() + timedelta(days=7)
+    ).strftime("%Y-%m-%d")
+
     conn = sqlite3.connect(CAMINHO_BANCO)
     cursor = conn.cursor()
 
     cursor.execute(
         """
-        INSERT INTO usuarios (usuario, senha)
-        VALUES (?, ?)
+        INSERT INTO usuarios
+        (usuario, senha, data_expiracao)
+        VALUES (?, ?, ?)
         """,
-        (usuario, senha_hash)
+        (
+            usuario,
+            senha_hash,
+            data_expiracao
+        )
     )
 
     conn.commit()
