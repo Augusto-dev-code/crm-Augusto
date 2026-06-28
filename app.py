@@ -363,9 +363,29 @@ def fazer_login():
 
         if check_password_hash(senha_salva, senha):
 
-            session["usuario"] = usuario
-            session["is_admin"] = usuario_encontrado[3]
-            return redirect("/")
+         is_admin = usuario_encontrado[3]
+
+    if is_admin == 1:
+
+        session["usuario"] = usuario
+        session["is_admin"] = is_admin
+
+        return redirect("/")
+
+    data_expiracao = usuario_encontrado[4]
+
+    dias_restantes = (
+        datetime.strptime(data_expiracao, "%Y-%m-%d")
+        - datetime.now()
+    ).days
+
+    if dias_restantes < 0:
+        return render_template("expirado.html")
+
+    session["usuario"] = usuario
+    session["is_admin"] = is_admin
+
+    return redirect("/")
 
     return "Usuário ou senha incorretos"
 
