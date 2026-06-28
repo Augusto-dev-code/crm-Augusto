@@ -50,6 +50,14 @@ SET is_admin = 1
 WHERE usuario = 'admin'
 """)
 
+try:
+    cursor.execute("""
+    ALTER TABLE usuarios
+    ADD COLUMN email TEXT
+    """)
+except:
+    pass
+
 conn.commit()
 conn.close()
 
@@ -400,6 +408,7 @@ def logout():
 def cadastrar_usuario():
 
     usuario = request.form["usuario"]
+    email = request.form["email"]
     senha = request.form["senha"]
 
     senha_hash = generate_password_hash(senha)
@@ -412,17 +421,18 @@ def cadastrar_usuario():
     cursor = conn.cursor()
 
     cursor.execute(
-        """
-        INSERT INTO usuarios
-        (usuario, senha, data_expiracao)
-        VALUES (?, ?, ?)
-        """,
-        (
-            usuario,
-            senha_hash,
-            data_expiracao
-        )
+    """
+    INSERT INTO usuarios
+    (usuario, email, senha, data_expiracao)
+    VALUES (?, ?, ?, ?)
+    """,
+    (
+        usuario,
+        email,
+        senha_hash,
+        data_expiracao
     )
+)
 
     conn.commit()
     conn.close()
