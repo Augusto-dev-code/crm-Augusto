@@ -77,7 +77,6 @@ conn.commit()
 conn.close()
 
 
-
 @app.route("/")
 def home():
 
@@ -113,14 +112,47 @@ def home():
 
     ultimos_clientes = cursor.fetchall()
 
+    # Dados do usuário
+    cursor.execute(
+        """
+        SELECT data_expiracao, is_admin
+        FROM usuarios
+        WHERE usuario = ?
+        """,
+        (session["usuario"],)
+    )
+
+    dados_usuario = cursor.fetchone()
+
+    dias_restantes = None
+
+    if dados_usuario:
+
+        data_expiracao = dados_usuario[0]
+        is_admin = dados_usuario[1]
+
+        if is_admin == 1:
+            dias_restantes = "Administrador"
+
+        else:
+
+            dias = (
+                datetime.strptime(data_expiracao, "%Y-%m-%d")
+                - datetime.now()
+            ).days
+
+            dias_restantes = max(dias, 0)
+
     conn.close()
 
     return render_template(
         "dashboard.html",
         total_clientes=total_clientes,
         ultimos_clientes=ultimos_clientes,
-        usuario=session["usuario"]
+        usuario=session["usuario"],
+        dias_restantes=dias_restantes
     )
+
 
 @app.route("/cadastro")
 def cadastro():

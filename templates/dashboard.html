@@ -18,6 +18,14 @@
     👤 {{ usuario }}
 </p>
 
+<p style="color: #facc15;">
+    {% if dias_restantes == "Administrador" %}
+        👑 Administrador
+    {% else %}
+        ⏳ {{ dias_restantes }} dias restantes
+    {% endif %}
+</p>
+
         <a href="/">📊 Dashboard</a>
 
         <a href="/clientes">👥 Clientes</a>
