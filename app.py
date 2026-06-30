@@ -394,7 +394,8 @@ def fazer_login():
 
             return redirect("/")
 
-    return "Usuário ou senha incorretos"  
+    flash("Usuário ou senha incorretos.", "erro")
+    return redirect("/login") 
 
 
 @app.route("/logout")
@@ -421,18 +422,36 @@ def cadastrar_usuario():
     cursor = conn.cursor()
 
     cursor.execute(
-    """
-    INSERT INTO usuarios
-    (usuario, email, senha, data_expiracao)
-    VALUES (?, ?, ?, ?)
-    """,
-    (
-        usuario,
-        email,
-        senha_hash,
-        data_expiracao
+        """
+        SELECT id
+        FROM usuarios
+        WHERE email = ?
+        """,
+        (email,)
     )
-)
+
+    email_existente = cursor.fetchone()
+
+    if email_existente:
+
+        conn.close()
+
+        flash("Este e-mail já está cadastrado.", "erro")
+        return redirect("/cadastro_usuario")
+
+    cursor.execute(
+        """
+        INSERT INTO usuarios
+        (usuario, email, senha, data_expiracao)
+        VALUES (?, ?, ?, ?)
+        """,
+        (
+            usuario,
+            email,
+            senha_hash,
+            data_expiracao
+        )
+    )
 
     conn.commit()
     conn.close()

@@ -14,6 +14,20 @@
 
         <h1>📝 Criar Conta</h1>
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for categoria, mensagem in messages %}
+
+            <div class="alerta {{ categoria }}">
+                {{ mensagem }}
+            </div>
+
+            <br>
+
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
         <form action="/cadastrar_usuario" method="POST">
 
             <input

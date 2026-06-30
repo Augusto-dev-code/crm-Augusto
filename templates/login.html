@@ -16,6 +16,20 @@
 
         <p>Gerencie seus clientes de forma simples.</p>
 
+        {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for categoria, mensagem in messages %}
+
+            <div class="alerta {{ categoria }}">
+                {{ mensagem }}
+            </div>
+
+            <br>
+
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
         <form action="/fazer_login" method="POST">
 
             <input
