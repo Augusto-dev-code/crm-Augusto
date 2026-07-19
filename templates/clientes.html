@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <title>Clientes</title>
 
     <link
@@ -70,6 +77,8 @@
             <h2>{{ cliente[1] }}</h2>
 
             <p><strong>📞 Telefone:</strong> {{ cliente[2] }}</p>
+
+            <p><strong>💰 Valor:</strong> R$ {{ "%.2f"|format(cliente[6]|float) }}</p>
 
             <p><strong>📝 Observações:</strong> {{ cliente[3] }}</p>
 

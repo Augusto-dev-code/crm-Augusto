@@ -38,6 +38,14 @@ CREATE TABLE IF NOT EXISTS usuarios (
 
 try:
     cursor.execute("""
+    ALTER TABLE clientes
+    ADD COLUMN valor REAL DEFAULT 0
+    """)
+except:
+    pass
+
+try:
+    cursor.execute("""
     ALTER TABLE usuarios
     ADD COLUMN is_admin INTEGER DEFAULT 0
     """)
@@ -84,7 +92,6 @@ except:
 conn.commit()
 conn.close()
 
-
 @app.route("/")
 def home():
 
@@ -106,10 +113,25 @@ def home():
 
     total_clientes = cursor.fetchone()[0]
 
+    # Faturamento total
+    cursor.execute(
+        """
+        SELECT SUM(valor)
+        FROM clientes
+        WHERE usuario = ?
+        """,
+        (session["usuario"],)
+    )
+
+    faturamento = cursor.fetchone()[0]
+
+    if faturamento is None:
+        faturamento = 0
+
     # Últimos 5 clientes do usuário logado
     cursor.execute(
         """
-        SELECT nome
+        SELECT nome, valor
         FROM clientes
         WHERE usuario = ?
         ORDER BY id DESC
@@ -156,11 +178,11 @@ def home():
     return render_template(
         "dashboard.html",
         total_clientes=total_clientes,
+        faturamento=faturamento,
         ultimos_clientes=ultimos_clientes,
         usuario=session["usuario"],
         dias_restantes=dias_restantes
     )
-
 
 @app.route("/cadastro")
 def cadastro():
@@ -176,12 +198,13 @@ def cadastrar():
     nome = request.form["nome"]
     telefone = request.form["telefone"]
     observacoes = request.form["observacoes"]
+    valor = request.form["valor"]
 
     telefone = "".join(filter(str.isdigit, telefone))
 
     if len(telefone) not in [10, 11]:
-       flash("Telefone inválido!", "erro")
-       return redirect("/cadastro")
+        flash("Telefone inválido!", "erro")
+        return redirect("/cadastro")
 
     data_cadastro = datetime.now().strftime("%d/%m/%Y")
 
@@ -189,19 +212,21 @@ def cadastrar():
     cursor = conn.cursor()
 
     cursor.execute(
-    """
-    INSERT INTO clientes
-    (nome, telefone, observacoes, data_cadastro, usuario)
-    VALUES (?, ?, ?, ?, ?)
-    """,
-    (
-        nome,
-        telefone,
-        observacoes,
-        data_cadastro,
-        session["usuario"]
+        """
+        INSERT INTO clientes
+        (nome, telefone, observacoes, data_cadastro, usuario, valor)
+        VALUES (?, ?, ?, ?, ?, ?)
+        """,
+        (
+            nome,
+            telefone,
+            observacoes,
+            data_cadastro,
+            session["usuario"],
+            valor
+        )
     )
-)
+
     conn.commit()
     conn.close()
 
