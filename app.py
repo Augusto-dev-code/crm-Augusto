@@ -173,7 +173,19 @@ def home():
 
             dias_restantes = max(dias, 0)
 
-    conn.close()
+        conn.close()
+
+    # Saudação automática
+    hora = datetime.now().hour
+
+    if hora < 12:
+        saudacao = "☀️ Bom dia"
+
+    elif hora < 18:
+        saudacao = "🌤️ Boa tarde"
+
+    else:
+        saudacao = "🌙 Boa noite"
 
     return render_template(
         "dashboard.html",
@@ -181,7 +193,8 @@ def home():
         faturamento=faturamento,
         ultimos_clientes=ultimos_clientes,
         usuario=session["usuario"],
-        dias_restantes=dias_restantes
+        dias_restantes=dias_restantes,
+        saudacao=saudacao
     )
 
 @app.route("/cadastro")
