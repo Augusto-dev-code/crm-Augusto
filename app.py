@@ -6,7 +6,7 @@ import os
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-
+hora = datetime.now(ZoneInfo("America/Sao_Paulo")).hour
 
 app = Flask(__name__)
 
