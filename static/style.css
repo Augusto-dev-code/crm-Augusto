@@ -1,0 +1,486 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: #e5e7eb;
+}
+
+/* DASHBOARD */
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 280px;
+    background: #0b1220;
+    padding: 30px 22px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+
+    border-right: 1px solid #1e293b;
+}
+
+.sidebar h2 {
+    color: white;
+    margin-bottom: 35px;
+}
+
+.sidebar a {
+    display: block;
+    text-decoration: none;
+    color: white;
+    background: #1e293b;
+    padding: 14px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+.sidebar a:hover {
+    background: #2563eb;
+    transform: translateX(4px);
+}
+
+.content {
+    flex: 1;
+    padding: 40px;
+}
+
+.content h1 {
+    color: white;
+}
+
+.card {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    padding: 30px;
+    border-radius: 20px;
+    max-width: 350px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.card h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.card p {
+    margin-top: 15px;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+/* FORMULÁRIOS */
+
+form {
+    background: #1e293b;
+    padding: 25px;
+    border-radius: 15px;
+    max-width: 600px;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    background: #334155;
+    color: white;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #cbd5e1;
+}
+
+button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+/* CLIENTES */
+
+.cliente {
+    background: #1e293b;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+    border-left: 5px solid #2563eb;
+}
+
+.editar {
+    color: #22c55e;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.excluir {
+    color: #ef4444;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.voltar {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.whatsapp {
+    background: #25D366;
+    color: white;
+    padding: 10px 14px;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-box {
+    background: #1e293b;
+    padding: 40px;
+    border-radius: 20px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.login-box h1 {
+    color: white;
+}
+
+.login-box p {
+    color: #cbd5e1;
+}
+
+.alerta {
+    padding: 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.sucesso {
+    background: #166534;
+    color: white;
+}
+
+.erro {
+    background: #991b1b;
+    color: white;
+}
+
+/* DASHBOARD */
+
+.cards {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-bottom: 35px;
+}
+
+.card {
+    flex: 1;
+    min-width: 260px;
+    max-width: 350px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.3);
+    transition: .25s;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+}
+
+.card h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.card p {
+    margin: 15px 0 0;
+    font-size: 42px;
+    font-weight: bold;
+}
+
+.ultimos-clientes p{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:12px 0;
+
+    border-bottom:1px solid #334155;
+}
+
+.ultimos-clientes p:last-child{
+    border-bottom:none;
+}
+
+
+/* ===== SIDEBAR V2 ===== */
+
+.logo{
+    margin-bottom:35px;
+}
+
+.logo h2{
+    margin:0;
+    color:#fff;
+    font-size:30px;
+}
+
+.logo span{
+    color:#94a3b8;
+    font-size:14px;
+}
+
+.perfil{
+
+    background:#111827;
+
+    border:1px solid #1f2937;
+
+    border-radius:14px;
+
+    padding:15px;
+
+    margin-bottom:30px;
+}
+
+.usuario{
+
+    margin:0;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    color:white;
+}
+
+.plano{
+
+    margin-top:10px;
+
+    margin-bottom:0;
+
+    color:#facc15;
+
+    font-size:14px;
+}
+
+.sidebar nav{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+}
+
+.sidebar nav a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    text-decoration:none;
+
+    color:#e5e7eb;
+
+    background:#111827;
+
+    padding:14px 16px;
+
+    border-radius:12px;
+
+    transition:.25s;
+}
+
+.sidebar nav a:hover{
+
+    background:#2563eb;
+
+    transform:translateX(6px);
+}
+
+/* ===== DASHBOARD ===== */
+
+.dashboard-header{
+
+    margin-bottom:40px;
+}
+
+.dashboard-header h1{
+
+    margin:0;
+
+    font-size:36px;
+
+    color:white;
+}
+
+.dashboard-header p{
+
+    margin-top:10px;
+
+    color:#94a3b8;
+
+    font-size:17px;
+}
+
+.cards{
+
+    display:flex;
+
+    gap:25px;
+
+    flex-wrap:wrap;
+
+    margin-bottom:35px;
+}
+
+.card{
+
+    flex:1;
+
+    min-width:260px;
+
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
+
+    border-radius:20px;
+
+    padding:30px;
+
+    transition:.25s;
+}
+
+.card:hover{
+
+    transform:translateY(-6px);
+}
+
+.card h3{
+
+    font-size:18px;
+
+    margin:0;
+}
+
+.card p{
+
+    font-size:42px;
+
+    margin-top:18px;
+}
+
+.linha-cliente{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px 0;
+
+    border-bottom:1px solid #334155;
+}
+
+.linha-cliente:last-child{
+
+    border-bottom:none;
+}
+
+/* ===== CARDS V2 ===== */
+
+.cards{
+
+    display:flex;
+
+    gap:25px;
+
+    margin-top:35px;
+
+    margin-bottom:40px;
+
+    flex-wrap:wrap;
+
+}
+
+.card{
+
+    flex:1;
+
+    min-width:280px;
+
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
+
+    border-radius:22px;
+
+    padding:30px;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.30);
+
+    transition:.25s;
+
+    cursor:default;
+
+}
+
+.card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 20px 40px rgba(37,99,235,.35);
+
+}
+
+.card h3{
+
+    margin:0;
+
+    font-size:18px;
+
+    font-weight:500;
+
+    opacity:.9;
+
+}
+
+.card p{
+
+    margin-top:25px;
+
+    font-size:52px;
+
+    font-weight:700;
+
+}
