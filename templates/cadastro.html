@@ -1,86 +1,428 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Novo Cliente</title>
 
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style.css') }}"
-    >
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ZyronDev | Novo Cliente</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        /* Menu lateral */
+        .sidebar-bottom {
+            margin-top: 28px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(255,255,255,.10);
+        }
+
+        .sidebar-nav a.agendamentos-link {
+            margin-top: 8px;
+            margin-bottom: 8px;
+            background: rgba(139,92,246,.16);
+            border: 1px solid rgba(139,92,246,.30);
+            color: #c4a7ff;
+            font-weight: 700;
+        }
+
+        .sidebar-nav a.agendamentos-link:hover {
+            background: rgba(139,92,246,.25);
+            color: #fff;
+        }
+
+        /* Página de cadastro */
+        .cadastro-page {
+            min-width: 0;
+        }
+
+        .cadastro-page .topbar {
+            margin-bottom: 30px;
+        }
+
+        .cadastro-page .cadastro-panel {
+            width: 100%;
+            max-width: 780px;
+            background: #151522;
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 18px;
+            padding: 32px;
+        }
+
+        .cadastro-page .cadastro-heading {
+            margin-bottom: 28px;
+        }
+
+        .cadastro-page .cadastro-heading h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .cadastro-page .cadastro-heading p {
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        .cadastro-page .cadastro-form {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            background: transparent;
+            border: 0;
+            padding: 0;
+            margin: 0;
+            max-width: none;
+        }
+
+        .cadastro-page .campo {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .cadastro-page .campo label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #d4d4d8;
+        }
+
+        .cadastro-page .campo input,
+        .cadastro-page .campo select,
+        .cadastro-page .campo textarea {
+            width: 100%;
+            min-width: 0;
+            padding: 14px 16px;
+            border: 1px solid rgba(255,255,255,.10);
+            border-radius: 11px;
+            background: #10101a;
+            color: #f4f4f5;
+            font-family: "Inter", sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .cadastro-page .campo input:focus,
+        .cadastro-page .campo select:focus,
+        .cadastro-page .campo textarea:focus {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139,92,246,.13);
+        }
+
+        .cadastro-page .campo input::placeholder,
+        .cadastro-page .campo textarea::placeholder {
+            color: #71717a;
+        }
+
+        .cadastro-page .campo textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .cadastro-page .campos-linha {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .cadastro-page .cadastro-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .cadastro-page .salvar-btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 14px 24px;
+            border: 0;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(109,40,217,.20);
+        }
+
+        .cadastro-page .voltar-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 20px;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 11px;
+            color: #d4d4d8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .cadastro-page .cadastro-alert {
+            max-width: 780px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            background: #202033;
+            border: 1px solid rgba(255,255,255,.10);
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .cadastro-page .cadastro-panel {
+                padding: 20px;
+                border-radius: 14px;
+            }
+
+            .cadastro-page .campos-linha {
+                grid-template-columns: 1fr;
+                gap: 22px;
+            }
+
+            .cadastro-page .cadastro-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .cadastro-page .salvar-btn,
+            .cadastro-page .voltar-btn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
 
 <div class="container">
 
-    <div class="sidebar">
+    <button class="sidebar-overlay" id="sidebarOverlay" aria-label="Fechar menu"></button>
 
-        <h2>🚀 ZyronDev
-        </h2>
+    <aside class="sidebar" id="sidebar">
 
-        <a href="/">📊 Dashboard</a>
+        <div class="brand">
+            <div class="brand-icon">Z</div>
+            <div>
+                <h2>Zyron<span>Dev</span></h2>
+                <small>BUSINESS MANAGEMENT</small>
+            </div>
+        </div>
 
-        <a href="/clientes">👥 Clientes</a>
+        <div class="profile">
+            <div class="avatar">
+                {{ usuario[0]|upper if usuario is defined and usuario else 'U' }}
+            </div>
+            <div class="profile-info">
+                <strong>{{ usuario if usuario is defined else 'Usuário' }}</strong>
+                <span>Conta ativa</span>
+            </div>
+        </div>
 
-        <a href="/cadastro">➕ Novo Cliente</a>
+        <div class="menu-label">MENU PRINCIPAL</div>
 
-        <a href="/logout">🚪 Sair</a>
+        <nav class="sidebar-nav">
 
-    </div>
+            <a href="/">
+                <span class="nav-icon">▦</span>
+                Dashboard
+            </a>
 
-    <div class="content">
+            <a href="/clientes">
+                <span class="nav-icon">♙</span>
+                Clientes
+            </a>
 
-        <h1>➕ Cadastrar Cliente</h1>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for categoria, mensagem in messages %}
+            <a href="/agendamentos" class="agendamentos-link">
+                <span class="nav-icon">▣</span>
+                Agendamentos
+            </a>
 
-            <div class="alerta {{ categoria }}">
-                {{ mensagem }}
+            <a href="/cadastro" class="active">
+                <span class="nav-icon">＋</span>
+                Novo Cliente
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="account-status">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>
+                        {% if dias_restantes is defined %}
+                            {% if dias_restantes == "Administrador" %}
+                                Administrador
+                            {% else %}
+                                {{ dias_restantes }} dias restantes
+                            {% endif %}
+                        {% else %}
+                            Conta ativa
+                        {% endif %}
+                    </strong>
+                    <small>Status da conta</small>
+                </div>
             </div>
 
-            <br>
+            <a href="/logout" class="logout">
+                <span class="nav-icon">↪</span>
+                Sair da conta
+            </a>
 
-        {% endfor %}
-    {% endif %}
-{% endwith %}
+        </div>
 
-        <form action="/cadastrar" method="POST">
+    </aside>
 
-            <input
-                type="text"
-                name="nome"
-                placeholder="Nome do cliente"
-                required
-            >
+    <main class="content cadastro-page">
 
-            <br><br>
+        <header class="topbar">
 
-            <input
-                type="text"
-                name="telefone"
-                placeholder="Telefone"
-                required
-            >
-
-            <br><br>
-
-            <textarea
-                name="observacoes"
-                placeholder="Observações"
-                rows="5"
-            ></textarea>
-
-            <br><br>
-
-            <button type="submit">
-                💾 Cadastrar Cliente
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+                ☰
             </button>
 
-        </form>
+            <div>
+                <span class="welcome">GERENCIAMENTO</span>
+                <h1>Novo Cliente</h1>
+                <p>Cadastre um cliente no seu negócio.</p>
+            </div>
 
-    </div>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for categoria, mensagem in messages %}
+                    <div class="cadastro-alert {{ categoria }}">
+                        {{ mensagem }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <section class="cadastro-panel">
+
+            <div class="cadastro-heading">
+                <h2>Informações do cliente</h2>
+                <p>Preencha os dados abaixo para criar um novo cadastro.</p>
+            </div>
+
+            <form action="/cadastrar" method="POST" class="cadastro-form">
+
+                <div class="campo">
+                    <label for="nome">Nome do cliente</label>
+                    <input
+                        type="text"
+                        id="nome"
+                        name="nome"
+                        placeholder="Digite o nome completo"
+                        required
+                    >
+                </div>
+
+                <div class="campos-linha">
+
+                    <div class="campo">
+                        <label for="valor">Valor (R$)</label>
+                        <input
+                            type="number"
+                            id="valor"
+                            name="valor"
+                            step="0.01"
+                            min="0"
+                            placeholder="0,00"
+                            required
+                        >
+                    </div>
+
+                    <div class="campo">
+                        <label for="tipo_valor">Tipo de cobrança</label>
+                        <select name="tipo_valor" id="tipo_valor" required>
+                            <option value="fixo">Pagamento único (valor fixo)</option>
+                            <option value="mensal">Pagamento recorrente (mensal)</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="campo">
+                    <label for="telefone">Telefone</label>
+                    <input
+                        type="tel"
+                        id="telefone"
+                        name="telefone"
+                        placeholder="(47) 99999-9999"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="observacoes">Observações</label>
+                    <textarea
+                        id="observacoes"
+                        name="observacoes"
+                        placeholder="Adicione informações importantes sobre o cliente..."
+                        rows="5"
+                    ></textarea>
+                </div>
+
+                <div class="cadastro-actions">
+
+                    <button type="submit" class="salvar-btn">
+                        ＋ Cadastrar Cliente
+                    </button>
+
+                    <a href="/clientes" class="voltar-btn">
+                        Cancelar
+                    </a>
+
+                </div>
+
+            </form>
+
+        </section>
+
+        <footer class="footer">
+            ZyronDev © 2026 · Todos os direitos reservados.
+        </footer>
+
+    </main>
 
 </div>
+
+<script>
+    const sidebar = document.getElementById("sidebar");
+    const toggle = document.getElementById("menuToggle");
+    const overlay = document.getElementById("sidebarOverlay");
+
+    function abrirMenu() {
+        sidebar.classList.add("sidebar-open");
+        overlay.classList.add("overlay-active");
+    }
+
+    function fecharMenu() {
+        sidebar.classList.remove("sidebar-open");
+        overlay.classList.remove("overlay-active");
+    }
+
+    toggle.addEventListener("click", () => {
+        if (sidebar.classList.contains("sidebar-open")) {
+            fecharMenu();
+        } else {
+            abrirMenu();
+        }
+    });
+
+    overlay.addEventListener("click", fecharMenu);
+
+    document.querySelectorAll(".sidebar a").forEach(link => {
+        link.addEventListener("click", fecharMenu);
+    });
+</script>
 
 </body>
 </html>

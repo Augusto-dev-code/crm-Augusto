@@ -1,115 +1,313 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Clientes</title>
 
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style.css') }}"
-    >
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ZyronDev | Clientes</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .sidebar-bottom {
+            margin-top: 28px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(255, 255, 255, 0.10);
+        }
+
+        .sidebar-nav a.agendamentos-link {
+            margin-top: 8px;
+            margin-bottom: 8px;
+            background: rgba(139, 92, 246, 0.16);
+            border: 1px solid rgba(139, 92, 246, 0.30);
+            color: #c4a7ff;
+            font-weight: 700;
+        }
+
+        .sidebar-nav a.agendamentos-link .nav-icon {
+            color: #a78bfa;
+        }
+
+        .sidebar-nav a.agendamentos-link:hover {
+            background: rgba(139, 92, 246, 0.25);
+            border-color: rgba(139, 92, 246, 0.50);
+            color: #ffffff;
+        }
+    </style>
 </head>
 <body>
 
 <div class="container">
 
-    <div class="sidebar">
+    <button class="sidebar-overlay" id="sidebarOverlay" aria-label="Fechar menu"></button>
 
-        <h2>🚀 ZyronDev</h2>
+    <aside class="sidebar" id="sidebar">
 
-        <a href="/">📊 Dashboard</a>
+        <div class="brand">
+            <div class="brand-icon">Z</div>
+            <div>
+                <h2>Zyron<span>Dev</span></h2>
+                <small>BUSINESS MANAGEMENT</small>
+            </div>
+        </div>
 
-        <a href="/clientes">👥 Clientes</a>
+        <div class="profile">
+            <div class="avatar">{{ usuario[0]|upper if usuario else 'U' }}</div>
+            <div class="profile-info">
+                <strong>{{ usuario }}</strong>
+                <span>Conta ativa</span>
+            </div>
+        </div>
 
-        <a href="/cadastro">➕ Novo Cliente</a>
+        <div class="menu-label">MENU PRINCIPAL</div>
 
-        <a href="/logout">🚪 Sair</a>
+        <nav class="sidebar-nav">
 
-    </div>
+            <a href="/">
+                <span class="nav-icon">▦</span>
+                Dashboard
+            </a>
 
-    <div class="content">
+            <a href="/clientes" class="active">
+                <span class="nav-icon">♙</span>
+                Clientes
+            </a>
 
-        <h1>👥 Clientes</h1>
+            <a href="/agendamentos" class="agendamentos-link">
+                <span class="nav-icon">▣</span>
+                Agendamentos
+            </a>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for categoria, mensagem in messages %}
+            <a href="/cadastro">
+                <span class="nav-icon">＋</span>
+                Novo Cliente
+            </a>
 
-            <div class="alerta {{ categoria }}">
-                {{ mensagem }}
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="account-status">
+                <span class="status-dot"></span>
+
+                <div>
+                    <strong>
+                        {% if dias_restantes == "Administrador" %}
+                            Administrador
+                        {% elif dias_restantes is defined %}
+                            {{ dias_restantes }} dias restantes
+                        {% else %}
+                            Conta ativa
+                        {% endif %}
+                    </strong>
+                    <small>Status da conta</small>
+                </div>
             </div>
 
-            <br>
-
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-
-        <form action="/clientes" method="GET">
-
-            <input
-                type="text"
-                name="busca"
-                placeholder="Pesquisar cliente..."
-                value="{{ busca }}"
-            >
-
-            <br><br>
-
-            <button type="submit">
-                🔍 Buscar
-            </button>
-
-        </form>
-
-        <br>
-
-        {% for cliente in clientes %}
-
-        <div class="cliente">
-
-            <h2>{{ cliente[1] }}</h2>
-
-            <p><strong>📞 Telefone:</strong> {{ cliente[2] }}</p>
-
-            <p><strong>📝 Observações:</strong> {{ cliente[3] }}</p>
-
-            <p><strong>📅 Cadastro:</strong> {{ cliente[4] }}</p>
-
-            <a
-                class="whatsapp"
-                href="https://wa.me/55{{ cliente[2] }}"
-                target="_blank"
-            >
-                💬 WhatsApp
-            </a>
-
-            <br><br>
-
-            <a
-                class="editar"
-                href="/editar/{{ cliente[0] }}"
-            >
-                ✏️ Editar
-            </a>
-
-            &nbsp;&nbsp;&nbsp;
-
-            <a
-                class="excluir"
-                href="/excluir/{{ cliente[0] }}"
-            >
-                🗑️ Excluir
+            <a href="/logout" class="logout">
+                <span class="nav-icon">↪</span>
+                Sair da conta
             </a>
 
         </div>
 
-        <br>
+    </aside>
 
-        {% endfor %}
+    <main class="content">
 
-    </div>
+        <header class="topbar">
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">☰</button>
+
+            <div>
+                <span class="welcome">GERENCIAMENTO</span>
+                <h1>Clientes</h1>
+                <p>Gerencie os clientes do seu negócio.</p>
+            </div>
+
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for categoria, mensagem in messages %}
+                    <div class="alerta {{ categoria }}">
+                        {{ mensagem }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <section class="clientes-section">
+
+            <div class="clientes-toolbar">
+
+                <div>
+                    <h2>Seus clientes</h2>
+                    <p>Pesquise e gerencie seus cadastros.</p>
+                </div>
+
+                <a href="/cadastro" class="novo-cliente-btn">
+                    + Novo cliente
+                </a>
+
+            </div>
+
+            <form action="/clientes" method="GET" class="search-form">
+
+                <input
+                    type="text"
+                    name="busca"
+                    placeholder="Pesquisar cliente pelo nome..."
+                    value="{{ busca }}"
+                >
+
+                <button type="submit">⌕ Buscar</button>
+
+            </form>
+
+            <div class="clientes-grid">
+
+                {% for cliente in clientes %}
+
+                    <article class="cliente-card">
+
+                        <div class="cliente-card-top">
+
+                            <div class="cliente-avatar">
+                                {{ cliente[1][0]|upper }}
+                            </div>
+
+                            <div class="cliente-identificacao">
+                                <h3>{{ cliente[1] }}</h3>
+                                <span>Cliente cadastrado</span>
+                            </div>
+
+                            <div class="cliente-data">
+                                {{ cliente[4] }}
+                            </div>
+
+                        </div>
+
+                        <div class="cliente-detalhes">
+
+                            <div>
+                                <span>TELEFONE</span>
+                                <strong>{{ cliente[2] }}</strong>
+                            </div>
+
+                            <div>
+                                <span>VALOR</span>
+
+                                <strong class="valor-cliente">
+                                    R$ {{ "%.2f"|format((cliente[5] or 0)|float) }}
+                                </strong>
+
+                                {% if cliente[7] == 'mensal' %}
+                                    <small class="tipo-cobranca mensal">
+                                        Mensal
+                                    </small>
+                                {% else %}
+                                    <small class="tipo-cobranca fixo">
+                                        Fixo
+                                    </small>
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                        {% if cliente[3] %}
+                            <div class="cliente-observacoes">
+                                <span>OBSERVAÇÕES</span>
+                                <p>{{ cliente[3] }}</p>
+                            </div>
+                        {% endif %}
+
+                        <div class="cliente-acoes">
+
+                            <div class="acoes-esquerda">
+
+                                <a href="/editar/{{ cliente[0] }}" class="editar">
+                                    ✏ Editar
+                                </a>
+
+                                <a
+                                    href="/excluir/{{ cliente[0] }}"
+                                    class="excluir"
+                                    onclick="return confirm('Deseja realmente excluir este cliente?')"
+                                >
+                                    🗑 Excluir
+                                </a>
+
+                            </div>
+
+                            <a
+                                class="whatsapp-small"
+                                href="https://wa.me/55{{ cliente[2] }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                💬 WhatsApp
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                {% else %}
+
+                    <div class="clientes-vazio">
+                        <div>♙</div>
+                        <h3>Nenhum cliente encontrado</h3>
+                        <p>Experimente outra pesquisa ou cadastre um novo cliente.</p>
+                        <a href="/cadastro">Cadastrar cliente</a>
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+        <footer class="footer">
+            ZyronDev © 2026 · Todos os direitos reservados.
+        </footer>
+
+    </main>
 
 </div>
+
+<script>
+    const sidebar = document.getElementById("sidebar");
+    const toggle = document.getElementById("menuToggle");
+    const overlay = document.getElementById("sidebarOverlay");
+
+    function abrirMenu() {
+        sidebar.classList.add("sidebar-open");
+        overlay.classList.add("overlay-active");
+    }
+
+    function fecharMenu() {
+        sidebar.classList.remove("sidebar-open");
+        overlay.classList.remove("overlay-active");
+    }
+
+    toggle.addEventListener("click", () => {
+        sidebar.classList.contains("sidebar-open")
+            ? fecharMenu()
+            : abrirMenu();
+    });
+
+    overlay.addEventListener("click", fecharMenu);
+
+    document.querySelectorAll(".sidebar a").forEach(link => {
+        link.addEventListener("click", fecharMenu);
+    });
+</script>
 
 </body>
 </html>

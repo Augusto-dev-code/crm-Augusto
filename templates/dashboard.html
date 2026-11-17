@@ -1,68 +1,389 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>ZyronDev</title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ZyronDev | Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        /* SEPARAÇÃO INFERIOR DO MENU */
+
+        .sidebar-bottom {
+            margin-top: 28px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(255, 255, 255, 0.10);
+        }
+
+        /* AGENDAMENTOS SEM DESTAQUE PERMANENTE */
+
+        .sidebar-nav a.agendamentos-link {
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-nav a.agendamentos-link:hover {
+            background: rgba(139, 92, 246, 0.15);
+            color: #ffffff;
+        }
+
+        /* DESTAQUE SOMENTE QUANDO ATIVO */
+
+        .sidebar-nav a.agendamentos-link.active {
+            background: rgba(139, 92, 246, 0.20);
+            border: 1px solid rgba(139, 92, 246, 0.42);
+            color: #ffffff;
+            font-weight: 700;
+        }
+    </style>
 </head>
+
 <body>
 
 <div class="container">
 
-    <div class="sidebar">
+    <button
+        class="sidebar-overlay"
+        id="sidebarOverlay"
+        aria-label="Fechar menu"
+    ></button>
 
-        <h2>🚀 ZyronDev</h2>
+    <aside class="sidebar" id="sidebar">
 
-        <p style="color: #cbd5e1;">
-    👤 {{ usuario }}
-</p>
+        <!-- LOGO -->
 
-<p style="color: #facc15;">
-    {% if dias_restantes == "Administrador" %}
-        👑 Administrador
-    {% else %}
-        ⏳ {{ dias_restantes }} dias restantes
-    {% endif %}
-</p>
+        <div class="brand">
 
-        <a href="/">📊 Dashboard</a>
+            <div class="brand-icon">Z</div>
 
-        <a href="/clientes">👥 Clientes</a>
+            <div>
+                <h2>Zyron<span>Dev</span></h2>
+                <small>BUSINESS MANAGEMENT</small>
+            </div>
 
-        <a href="/cadastro">➕ Novo Cliente</a>
+        </div>
 
-        <a href="/logout">🚪 Sair</a>
+        <!-- PERFIL -->
 
-    </div>
+        <div class="profile">
 
-    <div class="content">
+            <div class="avatar">
+                {{ usuario[0]|upper }}
+            </div>
 
-    <h1>📊 Dashboard</h1>
+            <div class="profile-info">
+                <strong>{{ usuario }}</strong>
+                <span>Conta ativa</span>
+            </div>
 
-    <div class="card">
+        </div>
 
-        <h3>Total de Clientes</h3>
+        <!-- MENU -->
 
-        <p>{{ total_clientes }}</p>
+        <div class="menu-label">
+            MENU PRINCIPAL
+        </div>
 
-    </div>
+        <nav class="sidebar-nav">
 
-    <br><br>
+            <a href="/" class="active">
+                <span class="nav-icon">▦</span>
+                Dashboard
+            </a>
 
-    <div class="cliente">
+            <a href="/clientes">
+                <span class="nav-icon">♙</span>
+                Clientes
+            </a>
 
-        <h2>🕒 Últimos Clientes</h2>
+            <a href="/agendamentos" class="agendamentos-link">
+                <span class="nav-icon">▣</span>
+                Agendamentos
+            </a>
 
-        {% for cliente in ultimos_clientes %}
+            <a href="/cadastro">
+                <span class="nav-icon">＋</span>
+                Novo Cliente
+            </a>
 
-            <p>👤 {{ cliente[0] }}</p>
+        </nav>
 
-        {% endfor %}
+        <!-- PARTE INFERIOR -->
 
-    </div>
+        <div class="sidebar-bottom">
+
+            <div class="account-status">
+
+                <span class="status-dot"></span>
+
+                <div>
+
+                    <strong>
+                        {% if dias_restantes == "Administrador" %}
+                            Administrador
+                        {% else %}
+                            {{ dias_restantes }} dias restantes
+                        {% endif %}
+                    </strong>
+
+                    <small>Status da conta</small>
+
+                </div>
+
+            </div>
+
+            <a href="/logout" class="logout">
+                <span class="nav-icon">↪</span>
+                Sair da conta
+            </a>
+
+        </div>
+
+    </aside>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+
+    <main class="content">
+
+        <!-- TOPO -->
+
+        <header class="topbar">
+
+            <button
+                class="menu-toggle"
+                id="menuToggle"
+                aria-label="Abrir menu"
+            >
+                ☰
+            </button>
+
+            <div>
+
+                <span class="welcome">
+                    PAINEL DE CONTROLE
+                </span>
+
+                <h1>Dashboard</h1>
+
+                <p>
+                    Bem-vindo de volta, {{ usuario }}.
+                </p>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <div class="topbar-badge">
+                    <span class="status-dot"></span>
+                    Sistema online
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- ESTATÍSTICAS -->
+
+        <section class="dashboard-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Visão geral</h2>
+                    <p>Acompanhe os principais números do seu negócio.</p>
+                </div>
+
+            </div>
+
+            <div class="cards">
+
+                <!-- TOTAL DE CLIENTES -->
+
+                <div class="stat-card purple-card">
+
+                    <div class="stat-top">
+
+                        <span>Total de clientes</span>
+
+                        <div class="stat-icon">
+                            ♙
+                        </div>
+
+                    </div>
+
+                    <h3>{{ total_clientes }}</h3>
+
+                    <span class="stat-description">
+                        Clientes cadastrados
+                    </span>
+
+                </div>
+
+                <!-- FATURAMENTO -->
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span>Faturamento total</span>
+
+                        <div class="stat-icon green-icon">
+                            R$
+                        </div>
+
+                    </div>
+
+                    <h3>
+                        R$ {{ "%.2f"|format(faturamento|float) }}
+                    </h3>
+
+                    <span class="stat-description">
+                        Valor acumulado
+                    </span>
+
+                </div>
+
+            </div>
+
+            <!-- ÚLTIMOS CLIENTES -->
+
+            <section class="recent-section">
+
+                <div class="recent-header">
+
+                    <div>
+
+                        <h2>Últimos clientes</h2>
+
+                        <p>
+                            Confira os cadastros mais recentes.
+                        </p>
+
+                    </div>
+
+                    <a href="/clientes" class="view-all">
+                        Ver todos →
+                    </a>
+
+                </div>
+
+                <div class="recent-list">
+
+                    {% if ultimos_clientes %}
+
+                        {% for cliente in ultimos_clientes %}
+
+                            <div class="recent-client">
+
+                                <div class="client-avatar">
+                                    {{ cliente[0][0]|upper }}
+                                </div>
+
+                                <div class="client-info">
+
+                                    <strong>
+                                        {{ cliente[0] }}
+                                    </strong>
+
+                                    <span>
+                                        Cliente cadastrado
+                                    </span>
+
+                                </div>
+
+                                <div class="client-value">
+
+                                    <span>Valor</span>
+
+                                    <strong>
+                                        R$ {{ "%.2f"|format(cliente[1]|float) }}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <div class="empty-state">
+
+                            <div>♙</div>
+
+                            <h3>Nenhum cliente ainda</h3>
+
+                            <p>
+                                Seus novos clientes aparecerão aqui.
+                            </p>
+
+                            <a href="/cadastro">
+                                Cadastrar primeiro cliente
+                            </a>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </section>
+
+        </section>
+
+        <!-- RODAPÉ -->
+
+        <footer class="footer">
+            ZyronDev © 2026 · Todos os direitos reservados.
+        </footer>
+
+    </main>
 
 </div>
+
+<!-- MENU MOBILE -->
+
+<script>
+
+    const sidebar = document.getElementById("sidebar");
+    const toggle = document.getElementById("menuToggle");
+    const overlay = document.getElementById("sidebarOverlay");
+
+    function abrirMenu() {
+        sidebar.classList.add("sidebar-open");
+        overlay.classList.add("overlay-active");
+    }
+
+    function fecharMenu() {
+        sidebar.classList.remove("sidebar-open");
+        overlay.classList.remove("overlay-active");
+    }
+
+    toggle.addEventListener("click", () => {
+
+        if (sidebar.classList.contains("sidebar-open")) {
+            fecharMenu();
+        } else {
+            abrirMenu();
+        }
+
+    });
+
+    overlay.addEventListener("click", fecharMenu);
+
+    document.querySelectorAll(".sidebar a").forEach(link => {
+        link.addEventListener("click", fecharMenu);
+    });
+
+</script>
 
 </body>
 </html>

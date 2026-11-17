@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,11 +18,8 @@
         <h2>🚀 ZyronDev</h2>
 
         <a href="/">📊 Dashboard</a>
-
         <a href="/clientes">👥 Clientes</a>
-
         <a href="/cadastro">➕ Novo Cliente</a>
-
         <a href="/logout">🚪 Sair</a>
 
     </div>
@@ -29,19 +27,17 @@
     <div class="content">
 
         <h1>✏️ Editar Cliente</h1>
+
         {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for categoria, mensagem in messages %}
-
-            <div class="alerta {{ categoria }}">
-                {{ mensagem }}
-            </div>
-
-            <br>
-
-        {% endfor %}
-    {% endif %}
-{% endwith %}
+            {% if messages %}
+                {% for categoria, mensagem in messages %}
+                    <div class="alerta {{ categoria }}">
+                        {{ mensagem }}
+                    </div>
+                    <br>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
 
         <form action="/atualizar/{{ cliente[0] }}" method="POST">
 
@@ -49,26 +45,49 @@
                 type="text"
                 name="nome"
                 value="{{ cliente[1] }}"
+                placeholder="Nome do cliente"
                 required
             >
-
-            <br><br>
 
             <input
                 type="text"
                 name="telefone"
                 value="{{ cliente[2] }}"
+                placeholder="Telefone"
                 required
             >
 
-            <br><br>
-
             <textarea
                 name="observacoes"
+                placeholder="Observações"
                 rows="5"
             >{{ cliente[3] }}</textarea>
 
-            <br><br>
+            <input
+                type="number"
+                step="0.01"
+                min="0"
+                name="valor"
+                value="{{ cliente[5] }}"
+                placeholder="Valor (R$)"
+                required
+            >
+
+            <label for="tipo_valor">Tipo de cobrança</label>
+
+            <select name="tipo_valor" id="tipo_valor" required>
+
+                <option value="fixo"
+                    {% if cliente[7] == 'fixo' %}selected{% endif %}>
+                    Pagamento único (valor fixo)
+                </option>
+
+                <option value="mensal"
+                    {% if cliente[7] == 'mensal' %}selected{% endif %}>
+                    Pagamento recorrente (mensal)
+                </option>
+
+            </select>
 
             <button type="submit">
                 💾 Salvar Alterações

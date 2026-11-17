@@ -1,0 +1,494 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ZyronDev | Novo Agendamento</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        /* Sidebar */
+        .sidebar-bottom {
+            margin-top: 28px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(255,255,255,.10);
+        }
+
+        .sidebar-nav a.agendamentos-link {
+            margin-top: 8px;
+            margin-bottom: 8px;
+            background: rgba(139,92,246,.20);
+            border: 1px solid rgba(139,92,246,.42);
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .sidebar-nav a.agendamentos-link:hover {
+            background: rgba(139,92,246,.30);
+        }
+
+        /* Página */
+        .novo-agendamento-page {
+            min-width: 0;
+        }
+
+        .novo-agendamento-page .topbar {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .novo-agendamento-page .page-heading {
+            flex: 1;
+            min-width: 190px;
+        }
+
+        .novo-agendamento-page .page-heading h1 {
+            margin: 4px 0 8px;
+        }
+
+        .novo-agendamento-page .page-heading p {
+            color: #9ca3af;
+        }
+
+        .novo-agendamento-page .back-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 18px;
+            background: #202033;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 11px;
+            color: #e5e7eb;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .novo-agendamento-page .form-panel {
+            width: 100%;
+            max-width: 780px;
+            padding: 32px;
+            border-radius: 18px;
+            background: #151522;
+            border: 1px solid rgba(255,255,255,.08);
+        }
+
+        .novo-agendamento-page .panel-heading {
+            margin-bottom: 28px;
+        }
+
+        .novo-agendamento-page .panel-heading h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .novo-agendamento-page .panel-heading p {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        .novo-agendamento-page .appointment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            max-width: none;
+            padding: 0;
+            margin: 0;
+            background: transparent;
+            border: 0;
+        }
+
+        .novo-agendamento-page .field {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .novo-agendamento-page .field label {
+            color: #d4d4d8;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .novo-agendamento-page .field input,
+        .novo-agendamento-page .field select,
+        .novo-agendamento-page .field textarea {
+            width: 100%;
+            min-width: 0;
+            padding: 14px 16px;
+            border: 1px solid rgba(255,255,255,.10);
+            border-radius: 11px;
+            background: #10101a;
+            color: #f4f4f5;
+            font-family: "Inter", sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .novo-agendamento-page .field input:focus,
+        .novo-agendamento-page .field select:focus,
+        .novo-agendamento-page .field textarea:focus {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139,92,246,.13);
+        }
+
+        .novo-agendamento-page .field input::placeholder,
+        .novo-agendamento-page .field textarea::placeholder {
+            color: #71717a;
+        }
+
+        .novo-agendamento-page input[type="date"],
+        .novo-agendamento-page input[type="time"] {
+            color-scheme: dark;
+        }
+
+        .novo-agendamento-page .field textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .novo-agendamento-page .field-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .novo-agendamento-page .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .novo-agendamento-page .cancel-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 20px;
+            border-radius: 11px;
+            border: 1px solid rgba(255,255,255,.12);
+            color: #d4d4d8;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .novo-agendamento-page .save-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 24px;
+            border: 0;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(109,40,217,.20);
+        }
+
+        .novo-agendamento-page .appointment-alert {
+            max-width: 780px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            background: #202033;
+            border: 1px solid rgba(255,255,255,.10);
+        }
+
+        @media (max-width: 768px) {
+            .novo-agendamento-page .form-panel {
+                padding: 20px;
+                border-radius: 14px;
+            }
+
+            .novo-agendamento-page .field-grid {
+                grid-template-columns: 1fr;
+                gap: 22px;
+            }
+
+            .novo-agendamento-page .back-btn {
+                width: 100%;
+            }
+
+            .novo-agendamento-page .form-actions {
+                flex-direction: column-reverse;
+                align-items: stretch;
+            }
+
+            .novo-agendamento-page .save-btn,
+            .novo-agendamento-page .cancel-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <button class="sidebar-overlay" id="sidebarOverlay" aria-label="Fechar menu"></button>
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">Z</div>
+            <div>
+                <h2>Zyron<span>Dev</span></h2>
+                <small>BUSINESS MANAGEMENT</small>
+            </div>
+        </div>
+
+        <div class="profile">
+            <div class="avatar">
+                {{ usuario[0]|upper if usuario is defined and usuario else 'U' }}
+            </div>
+            <div class="profile-info">
+                <strong>{{ usuario if usuario is defined else 'Usuário' }}</strong>
+                <span>Conta ativa</span>
+            </div>
+        </div>
+
+        <div class="menu-label">MENU PRINCIPAL</div>
+
+        <nav class="sidebar-nav">
+
+            <a href="/">
+                <span class="nav-icon">▦</span>
+                Dashboard
+            </a>
+
+            <a href="/clientes">
+                <span class="nav-icon">♙</span>
+                Clientes
+            </a>
+
+            <a href="/agendamentos" class="active agendamentos-link">
+                <span class="nav-icon">▣</span>
+                Agendamentos
+            </a>
+
+            <a href="/cadastro">
+                <span class="nav-icon">＋</span>
+                Novo Cliente
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="account-status">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>
+                        {% if dias_restantes is defined %}
+                            {% if dias_restantes == "Administrador" %}
+                                Administrador
+                            {% else %}
+                                {{ dias_restantes }} dias restantes
+                            {% endif %}
+                        {% else %}
+                            Conta ativa
+                        {% endif %}
+                    </strong>
+                    <small>Status da conta</small>
+                </div>
+            </div>
+
+            <a href="/logout" class="logout">
+                <span class="nav-icon">↪</span>
+                Sair da conta
+            </a>
+
+        </div>
+
+    </aside>
+
+    <main class="content novo-agendamento-page">
+
+        <header class="topbar">
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">
+                ☰
+            </button>
+
+            <div class="page-heading">
+                <span class="welcome">GERENCIAMENTO</span>
+                <h1>Novo Agendamento</h1>
+                <p>Cadastre um novo atendimento.</p>
+            </div>
+
+            <a href="/agendamentos" class="back-btn">
+                ← Voltar
+            </a>
+
+        </header>
+
+        {% with mensagens = get_flashed_messages(with_categories=true) %}
+            {% if mensagens %}
+                {% for categoria, mensagem in mensagens %}
+                    <div class="appointment-alert {{ categoria }}">
+                        {{ mensagem }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <section class="form-panel">
+
+            <div class="panel-heading">
+                <h2>Informações do agendamento</h2>
+                <p>Preencha os dados para reservar um horário.</p>
+            </div>
+
+            <form method="POST" action="/cadastrar_agendamento" class="appointment-form">
+
+                <div class="field">
+                    <label for="cliente_id">Cliente</label>
+
+                    <select id="cliente_id" name="cliente_id" required>
+                        <option value="">Selecione um cliente</option>
+
+                        {% for cliente in clientes %}
+                            <option value="{{ cliente[0] }}">
+                                {{ cliente[1] }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="servico">Serviço</label>
+
+                    <input
+                        type="text"
+                        id="servico"
+                        name="servico"
+                        placeholder="Ex: Corte de cabelo"
+                        required
+                    >
+                </div>
+
+                <div class="field-grid">
+
+                    <div class="field">
+                        <label for="data">Data</label>
+
+                        <input
+                            type="date"
+                            id="data"
+                            name="data"
+                            lang="pt-BR"
+                            min="{{ hoje if hoje is defined else '' }}"
+                            required
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label for="horario">Horário</label>
+
+                        <input
+                            type="time"
+                            id="horario"
+                            name="horario"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+                <div class="field">
+                    <label for="valor">Valor do atendimento (R$)</label>
+
+                    <input
+                        type="number"
+                        id="valor"
+                        name="valor"
+                        placeholder="Ex: 45.00"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+                </div>
+
+                <div class="field">
+                    <label for="observacoes">Observações</label>
+
+                    <textarea
+                        id="observacoes"
+                        name="observacoes"
+                        rows="4"
+                        placeholder="Informações adicionais sobre o atendimento..."
+                    ></textarea>
+                </div>
+
+                <div class="form-actions">
+
+                    <a href="/agendamentos" class="cancel-btn">
+                        Cancelar
+                    </a>
+
+                    <button type="submit" class="save-btn">
+                        ＋ Salvar agendamento
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+        <footer class="footer">
+            ZyronDev © 2026 · Todos os direitos reservados.
+        </footer>
+
+    </main>
+
+</div>
+
+<script>
+    const sidebar = document.getElementById("sidebar");
+    const toggle = document.getElementById("menuToggle");
+    const overlay = document.getElementById("sidebarOverlay");
+
+    function abrirMenu() {
+        sidebar.classList.add("sidebar-open");
+        overlay.classList.add("overlay-active");
+    }
+
+    function fecharMenu() {
+        sidebar.classList.remove("sidebar-open");
+        overlay.classList.remove("overlay-active");
+    }
+
+    toggle.addEventListener("click", () => {
+        if (sidebar.classList.contains("sidebar-open")) {
+            fecharMenu();
+        } else {
+            abrirMenu();
+        }
+    });
+
+    overlay.addEventListener("click", fecharMenu);
+
+    document.querySelectorAll(".sidebar a").forEach(link => {
+        link.addEventListener("click", fecharMenu);
+    });
+</script>
+
+</body>
+</html>

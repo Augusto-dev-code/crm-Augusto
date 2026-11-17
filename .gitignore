@@ -216,3 +216,23 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ========================================
+# ZYRONDEV - BANCO DE DADOS
+# ========================================
+
+banco.db
+banco_backup.db
+*.db-journal
+.env.*
+
+# Scripts locais de manutenção
+migrar_banco.py
+teste_banco.py
+verificar_banco.py
+
+# Bancos e backups locais
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
