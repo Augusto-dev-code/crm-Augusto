@@ -15,15 +15,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
     <style>
-        /* SEPARAÇÃO INFERIOR DO MENU */
-
         .sidebar-bottom {
             margin-top: 28px;
             padding-top: 22px;
             border-top: 1px solid rgba(255, 255, 255, 0.10);
         }
-
-        /* AGENDAMENTOS SEM DESTAQUE PERMANENTE */
 
         .sidebar-nav a.agendamentos-link {
             margin-top: 8px;
@@ -35,13 +31,167 @@
             color: #ffffff;
         }
 
-        /* DESTAQUE SOMENTE QUANDO ATIVO */
-
         .sidebar-nav a.agendamentos-link.active {
             background: rgba(139, 92, 246, 0.20);
             border: 1px solid rgba(139, 92, 246, 0.42);
             color: #ffffff;
             font-weight: 700;
+        }
+
+        /* FINANCEIRO DE AGENDAMENTOS */
+
+        .financeiro-section {
+            margin-top: 36px;
+            margin-bottom: 36px;
+        }
+
+        .financeiro-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .financeiro-heading h2 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .financeiro-heading p {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .financeiro-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 11px 17px;
+            border-radius: 11px;
+            background: rgba(139, 92, 246, 0.14);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: #c4b5fd;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .financeiro-link:hover {
+            background: rgba(139, 92, 246, 0.25);
+            color: #ffffff;
+        }
+
+        .financeiro-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .financeiro-card {
+            background: #111827;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 17px;
+            padding: 23px;
+            min-width: 0;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .financeiro-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(139, 92, 246, 0.35);
+        }
+
+        .financeiro-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 17px;
+        }
+
+        .financeiro-card-top span {
+            color: #a5b4c8;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .financeiro-icon {
+            width: 39px;
+            height: 39px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .financeiro-icon.verde {
+            background: rgba(34, 197, 94, 0.13);
+            color: #4ade80;
+        }
+
+        .financeiro-icon.roxo {
+            background: rgba(139, 92, 246, 0.15);
+            color: #c4b5fd;
+        }
+
+        .financeiro-icon.azul {
+            background: rgba(59, 130, 246, 0.13);
+            color: #60a5fa;
+        }
+
+        .financeiro-icon.vermelho {
+            background: rgba(239, 68, 68, 0.13);
+            color: #f87171;
+        }
+
+        .financeiro-valor {
+            font-size: clamp(23px, 2.5vw, 31px);
+            font-weight: 800;
+            color: #f8fafc;
+            letter-spacing: -0.8px;
+            overflow-wrap: anywhere;
+        }
+
+        .financeiro-descricao {
+            display: block;
+            margin-top: 9px;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .financeiro-destaque {
+            border-color: rgba(34, 197, 94, 0.22);
+            background: linear-gradient(
+                135deg,
+                rgba(34, 197, 94, 0.07),
+                #111827 70%
+            );
+        }
+
+        @media (max-width: 700px) {
+            .financeiro-grid {
+                grid-template-columns: 1fr;
+                gap: 13px;
+            }
+
+            .financeiro-card {
+                padding: 19px;
+            }
+
+            .financeiro-heading h2 {
+                font-size: 19px;
+            }
+
+            .financeiro-link {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -129,8 +279,10 @@
                     <strong>
                         {% if dias_restantes == "Administrador" %}
                             Administrador
-                        {% else %}
+                        {% elif dias_restantes is not none %}
                             {{ dias_restantes }} dias restantes
+                        {% else %}
+                            Conta ativa
                         {% endif %}
                     </strong>
 
@@ -190,7 +342,7 @@
 
         </header>
 
-        <!-- ESTATÍSTICAS -->
+        <!-- VISÃO GERAL -->
 
         <section class="dashboard-section">
 
@@ -227,13 +379,13 @@
 
                 </div>
 
-                <!-- FATURAMENTO -->
+                <!-- VALORES CADASTRADOS -->
 
                 <div class="stat-card">
 
                     <div class="stat-top">
 
-                        <span>Faturamento total</span>
+                        <span>Valores cadastrados</span>
 
                         <div class="stat-icon green-icon">
                             R$
@@ -246,12 +398,134 @@
                     </h3>
 
                     <span class="stat-description">
-                        Valor acumulado
+                        Soma dos valores dos clientes
                     </span>
 
                 </div>
 
             </div>
+
+            <!-- FINANCEIRO DOS AGENDAMENTOS -->
+
+            <section class="financeiro-section">
+
+                <div class="financeiro-heading">
+
+                    <div>
+                        <h2>Financeiro dos agendamentos</h2>
+
+                        <p>
+                            Acompanhe os valores dos seus atendimentos.
+                        </p>
+                    </div>
+
+                    <a href="/agendamentos" class="financeiro-link">
+                        Ver agendamentos →
+                    </a>
+
+                </div>
+
+                <div class="financeiro-grid">
+
+                    <!-- FATURAMENTO REALIZADO -->
+
+                    <div class="financeiro-card financeiro-destaque">
+
+                        <div class="financeiro-card-top">
+
+                            <span>Faturamento realizado</span>
+
+                            <div class="financeiro-icon verde">
+                                R$
+                            </div>
+
+                        </div>
+
+                        <div class="financeiro-valor">
+                            R$ {{ "%.2f"|format(faturamento_realizado|default(0, true)|float) }}
+                        </div>
+
+                        <span class="financeiro-descricao">
+                            Valor dos atendimentos concluídos
+                        </span>
+
+                    </div>
+
+                    <!-- FATURAMENTO PENDENTE -->
+
+                    <div class="financeiro-card">
+
+                        <div class="financeiro-card-top">
+
+                            <span>Valor pendente</span>
+
+                            <div class="financeiro-icon roxo">
+                                ◷
+                            </div>
+
+                        </div>
+
+                        <div class="financeiro-valor">
+                            R$ {{ "%.2f"|format(faturamento_pendente|default(0, true)|float) }}
+                        </div>
+
+                        <span class="financeiro-descricao">
+                            Valor dos atendimentos agendados
+                        </span>
+
+                    </div>
+
+                    <!-- CONCLUÍDOS -->
+
+                    <div class="financeiro-card">
+
+                        <div class="financeiro-card-top">
+
+                            <span>Atendimentos concluídos</span>
+
+                            <div class="financeiro-icon azul">
+                                ✓
+                            </div>
+
+                        </div>
+
+                        <div class="financeiro-valor">
+                            {{ total_concluidos|default(0, true) }}
+                        </div>
+
+                        <span class="financeiro-descricao">
+                            Total de serviços finalizados
+                        </span>
+
+                    </div>
+
+                    <!-- CANCELADOS -->
+
+                    <div class="financeiro-card">
+
+                        <div class="financeiro-card-top">
+
+                            <span>Atendimentos cancelados</span>
+
+                            <div class="financeiro-icon vermelho">
+                                ×
+                            </div>
+
+                        </div>
+
+                        <div class="financeiro-valor">
+                            {{ total_cancelados|default(0, true) }}
+                        </div>
+
+                        <span class="financeiro-descricao">
+                            Agendamentos cancelados
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
 
             <!-- ÚLTIMOS CLIENTES -->
 
@@ -352,7 +626,6 @@
 <!-- MENU MOBILE -->
 
 <script>
-
     const sidebar = document.getElementById("sidebar");
     const toggle = document.getElementById("menuToggle");
     const overlay = document.getElementById("sidebarOverlay");
@@ -368,13 +641,11 @@
     }
 
     toggle.addEventListener("click", () => {
-
         if (sidebar.classList.contains("sidebar-open")) {
             fecharMenu();
         } else {
             abrirMenu();
         }
-
     });
 
     overlay.addEventListener("click", fecharMenu);
@@ -382,7 +653,6 @@
     document.querySelectorAll(".sidebar a").forEach(link => {
         link.addEventListener("click", fecharMenu);
     });
-
 </script>
 
 </body>

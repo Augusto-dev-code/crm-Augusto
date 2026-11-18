@@ -9,15 +9,12 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
     <style>
-        /* ========================================
-           MENU LATERAL
-        ======================================== */
+        /* MENU LATERAL */
 
         .sidebar-bottom {
             margin-top: 28px;
@@ -42,9 +39,7 @@
             color: #fff;
         }
 
-        /* ========================================
-           PÁGINA DE AGENDAMENTOS
-        ======================================== */
+        /* PÁGINA */
 
         .agenda-page {
             min-width: 0;
@@ -72,9 +67,7 @@
             color: #9ca3af;
         }
 
-        /* ========================================
-           BOTÃO NOVO AGENDAMENTO
-        ======================================== */
+        /* BOTÃO NOVO AGENDAMENTO */
 
         .agenda-page .agenda-primary {
             display: inline-flex;
@@ -97,9 +90,7 @@
             box-shadow: 0 9px 28px rgba(109,40,217,.35);
         }
 
-        /* ========================================
-           PAINÉIS
-        ======================================== */
+        /* PAINÉIS */
 
         .agenda-page .agenda-panel {
             background: #151522;
@@ -110,9 +101,7 @@
             min-width: 0;
         }
 
-        /* ========================================
-           FILTRO DE DATA
-        ======================================== */
+        /* FILTROS */
 
         .agenda-page .agenda-filter {
             display: flex;
@@ -174,9 +163,7 @@
             color: #fff;
         }
 
-        /* ========================================
-           CABEÇALHO DA LISTAGEM
-        ======================================== */
+        /* LISTAGEM */
 
         .agenda-page .agenda-section-header {
             margin-bottom: 24px;
@@ -191,10 +178,6 @@
             color: #9ca3af;
             font-size: 14px;
         }
-
-        /* ========================================
-           TABELA
-        ======================================== */
 
         .agenda-page .agenda-table-wrap {
             width: 100%;
@@ -239,9 +222,7 @@
             font-size: 12px;
         }
 
-        /* ========================================
-           DATA E HORÁRIO
-        ======================================== */
+        /* DATA E HORÁRIO */
 
         .agenda-page .agenda-data-hora {
             display: flex;
@@ -268,9 +249,7 @@
             font-weight: 700;
         }
 
-        /* ========================================
-           STATUS
-        ======================================== */
+        /* STATUS */
 
         .agenda-page .agenda-status {
             display: inline-flex;
@@ -296,9 +275,7 @@
             background: rgba(239,68,68,.12);
         }
 
-        /* ========================================
-           BOTÕES DE AÇÃO
-        ======================================== */
+        /* BOTÕES DE AÇÃO */
 
         .agenda-page .agenda-actions {
             display: flex;
@@ -350,9 +327,7 @@
             background: rgba(239,68,68,.22);
         }
 
-        /* ========================================
-           AGENDA VAZIA
-        ======================================== */
+        /* AGENDA VAZIA */
 
         .agenda-page .agenda-empty {
             text-align: center;
@@ -368,9 +343,7 @@
             margin-bottom: 22px;
         }
 
-        /* ========================================
-           MENSAGENS
-        ======================================== */
+        /* ALERTAS */
 
         .agenda-page .agenda-alert {
             padding: 14px 18px;
@@ -380,12 +353,156 @@
             border: 1px solid rgba(255,255,255,.10);
         }
 
-        /* ========================================
-           RESPONSIVIDADE
-        ======================================== */
+        /* CALENDÁRIO SEMANAL */
+
+        .agenda-calendar {
+            margin-bottom: 24px;
+        }
+
+        .agenda-calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .agenda-calendar-title h2 {
+            font-size: 21px;
+            color: #f5f3ff;
+            margin-bottom: 6px;
+        }
+
+        .agenda-calendar-title p {
+            font-size: 13px;
+            color: #9ca3af;
+        }
+
+        /* NAVEGAÇÃO DO CALENDÁRIO */
+
+        .agenda-calendar-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .agenda-calendar-nav button {
+            background: #202033;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: #e5e7eb;
+            cursor: pointer;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .agenda-calendar-nav button:hover {
+            background: #37265c;
+            border-color: #8b5cf6;
+        }
+
+        /* DIAS DA SEMANA */
+
+        .agenda-calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .agenda-calendar-day {
+            background: #1c1c2d;
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: 12px;
+            padding: 12px;
+            min-height: 170px;
+            min-width: 0;
+        }
+
+        .agenda-calendar-day.today {
+            border-color: #8b5cf6;
+            background: rgba(139,92,246,.10);
+        }
+
+        .agenda-calendar-day-header {
+            text-align: center;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+        }
+
+        .agenda-calendar-weekday {
+            display: block;
+            font-size: 12px;
+            color: #9ca3af;
+            margin-bottom: 5px;
+        }
+
+        .agenda-calendar-number {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        /* EVENTOS DO CALENDÁRIO */
+
+        .agenda-calendar-event {
+            display: block;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 9px;
+            background: rgba(139,92,246,.14);
+            border-left: 3px solid #8b5cf6;
+            text-decoration: none;
+            transition: .2s;
+            overflow-wrap: anywhere;
+        }
+
+        .agenda-calendar-event:hover {
+            background: rgba(139,92,246,.25);
+            transform: translateY(-2px);
+        }
+
+        .agenda-calendar-event strong {
+            display: block;
+            font-size: 12px;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .agenda-calendar-event span {
+            display: block;
+            font-size: 11px;
+            color: #c4b5fd;
+        }
+
+        .agenda-calendar-event.concluido {
+            background: rgba(34,197,94,.10);
+            border-left-color: #22c55e;
+        }
+
+        .agenda-calendar-event.cancelado {
+            background: rgba(239,68,68,.10);
+            border-left-color: #ef4444;
+        }
+
+        .agenda-calendar-empty {
+            font-size: 11px;
+            color: #71717a;
+            text-align: center;
+            padding: 15px 4px;
+        }
+
+        /* RESPONSIVIDADE */
+
+        @media (max-width: 1100px) {
+            .agenda-calendar-grid {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+        }
 
         @media (max-width: 768px) {
-
             .agenda-page .topbar {
                 align-items: flex-start;
             }
@@ -416,10 +533,17 @@
             .agenda-page .agenda-section-header h2 {
                 font-size: 19px;
             }
+
+            .agenda-calendar-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .agenda-calendar-day {
+                min-height: 140px;
+            }
         }
 
         @media (max-width: 550px) {
-
             .agenda-page .agenda-panel {
                 padding: 16px;
             }
@@ -434,6 +558,24 @@
 
             .agenda-page .agenda-filter {
                 gap: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .agenda-calendar-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .agenda-calendar-header {
+                align-items: flex-start;
+            }
+
+            .agenda-calendar-nav {
+                width: 100%;
+            }
+
+            .agenda-calendar-nav button {
+                flex: 1;
             }
         }
     </style>
@@ -456,29 +598,27 @@
     <aside class="sidebar" id="sidebar">
 
         <div class="brand">
-
             <div class="brand-icon">Z</div>
 
             <div>
                 <h2>Zyron<span>Dev</span></h2>
                 <small>BUSINESS MANAGEMENT</small>
             </div>
-
         </div>
 
         <!-- PERFIL -->
 
         <div class="profile">
-
             <div class="avatar">
                 {{ session.get('usuario', 'U')[0]|upper }}
             </div>
 
             <div class="profile-info">
-                <strong>{{ session.get('usuario', 'Usuário') }}</strong>
+                <strong>
+                    {{ session.get('usuario', 'Usuário') }}
+                </strong>
                 <span>Conta ativa</span>
             </div>
-
         </div>
 
         <!-- NAVEGAÇÃO -->
@@ -499,7 +639,10 @@
                 Clientes
             </a>
 
-            <a href="/agendamentos" class="active agendamentos-link">
+            <a
+                href="/agendamentos"
+                class="active agendamentos-link"
+            >
                 <span class="nav-icon">▣</span>
                 Agendamentos
             </a>
@@ -516,14 +659,12 @@
         <div class="sidebar-bottom">
 
             <div class="account-status">
-
                 <span class="status-dot"></span>
 
                 <div>
                     <strong>Conta ativa</strong>
                     <small>Status da conta</small>
                 </div>
-
             </div>
 
             <a href="/logout" class="logout">
@@ -560,12 +701,16 @@
                 <h1>Agendamentos</h1>
 
                 <p>
-                    Organize os horários e acompanhe seus atendimentos.
+                    Organize os horários e acompanhe
+                    seus atendimentos.
                 </p>
 
             </div>
 
-            <a href="/novo_agendamento" class="agenda-primary">
+            <a
+                href="/novo_agendamento"
+                class="agenda-primary"
+            >
                 ＋ Novo agendamento
             </a>
 
@@ -589,6 +734,55 @@
 
         {% endwith %}
 
+        <!-- CALENDÁRIO SEMANAL -->
+
+        <section class="agenda-panel agenda-calendar">
+
+            <div class="agenda-calendar-header">
+
+                <div class="agenda-calendar-title">
+                    <h2 id="mesCalendario">Novembro de 2026</h2>
+                    <p id="periodoCalendario">
+                         Visualize seus atendimentos durante a semana.
+                    </p>
+                </div>
+
+                <div class="agenda-calendar-nav">
+
+                    <button
+                        type="button"
+                        id="semanaAnterior"
+                    >
+                        ← Anterior
+                    </button>
+
+                    <button
+                        type="button"
+                        id="semanaAtual"
+                    >
+                        Hoje
+                    </button>
+
+                    <button
+                        type="button"
+                        id="proximaSemana"
+                    >
+                        Próxima →
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div
+                class="agenda-calendar-grid"
+                id="calendarioGrid"
+            >
+                <!-- Dias gerados pelo JavaScript -->
+            </div>
+
+        </section>
+
         <!-- FILTRO -->
 
         <section class="agenda-panel">
@@ -600,7 +794,6 @@
             >
 
                 <div>
-
                     <label for="data">
                         Consultar dia:
                     </label>
@@ -610,16 +803,18 @@
                         id="data"
                         name="data"
                         lang="pt-BR"
-                        value="{{ data_selecionada }}"
+                        value="{{ data_selecionada or '' }}"
                     >
-
                 </div>
 
                 <button type="submit">
                     Consultar
                 </button>
 
-                <a href="/agendamentos" class="agenda-clear">
+                <a
+                    href="/agendamentos"
+                    class="agenda-clear"
+                >
                     Ver todos
                 </a>
 
@@ -642,7 +837,6 @@
                 </h2>
 
                 <p>
-
                     {% if data_selecionada %}
 
                         Exibindo os agendamentos de
@@ -650,11 +844,11 @@
 
                     {% else %}
 
-                        Consulte todos os atendimentos cadastrados,
-                        organizados por data e horário.
+                        Consulte todos os atendimentos
+                        cadastrados, organizados por data
+                        e horário.
 
                     {% endif %}
-
                 </p>
 
             </div>
@@ -666,7 +860,6 @@
                     <table class="agenda-table">
 
                         <thead>
-
                             <tr>
                                 <th>Data e horário</th>
                                 <th>Cliente</th>
@@ -675,157 +868,152 @@
                                 <th>Status</th>
                                 <th>Ações</th>
                             </tr>
-
                         </thead>
 
                         <tbody>
 
                             {% for agendamento in agendamentos %}
 
-                                <tr>
+                            <tr>
 
-                                    <!-- DATA E HORÁRIO -->
+                                <!-- DATA E HORÁRIO -->
 
-                                    <td>
+                                <td>
+                                    <div class="agenda-data-hora">
 
-                                        <div class="agenda-data-hora">
-
-                                            <strong class="agenda-data">
-                                                {{ agendamento[5][8:10] }}/{{ agendamento[5][5:7] }}/{{ agendamento[5][0:4] }}
-                                            </strong>
-
-                                            <span class="agenda-hora">
-                                                {{ agendamento[6] }}
-                                            </span>
-
-                                        </div>
-
-                                    </td>
-
-                                    <!-- CLIENTE -->
-
-                                    <td>
-
-                                        <strong>
-                                            {{ agendamento[2] }}
+                                        <strong class="agenda-data">
+                                            {{ agendamento[5][8:10] }}/{{ agendamento[5][5:7] }}/{{ agendamento[5][0:4] }}
                                         </strong>
 
-                                        <small class="agenda-client-phone">
-                                            {{ agendamento[3] or 'Sem telefone' }}
-                                        </small>
-
-                                    </td>
-
-                                    <!-- SERVIÇO -->
-
-                                    <td>
-                                        {{ agendamento[4] }}
-                                    </td>
-
-                                    <!-- VALOR -->
-
-                                    <td>
-                                        R$ {{ "%.2f"|format(agendamento[7]|float) }}
-                                    </td>
-
-                                    <!-- STATUS -->
-
-                                    <td>
-
-                                        <span class="agenda-status {{ agendamento[9] }}">
-
-                                            {% if agendamento[9] == "agendado" %}
-
-                                                Agendado
-
-                                            {% elif agendamento[9] == "concluido" %}
-
-                                                Concluído
-
-                                            {% else %}
-
-                                                Cancelado
-
-                                            {% endif %}
-
+                                        <span class="agenda-hora">
+                                            {{ agendamento[6] }}
                                         </span>
 
-                                    </td>
+                                    </div>
+                                </td>
 
-                                    <!-- AÇÕES -->
+                                <!-- CLIENTE -->
 
-                                    <td>
+                                <td>
+                                    <strong>
+                                        {{ agendamento[2] }}
+                                    </strong>
 
-                                        <div class="agenda-actions">
+                                    <small class="agenda-client-phone">
+                                        {{ agendamento[3] or 'Sem telefone' }}
+                                    </small>
+                                </td>
 
-                                            <a href="/editar_agendamento/{{ agendamento[0] }}">
-                                                Editar
-                                            </a>
+                                <!-- SERVIÇO -->
 
-                                            {% if agendamento[9] == "agendado" %}
+                                <td>
+                                    {{ agendamento[4] }}
+                                </td>
 
-                                                <!-- CONCLUIR -->
+                                <!-- VALOR -->
 
-                                                <form
-                                                    method="POST"
-                                                    action="/status_agendamento/{{ agendamento[0] }}"
-                                                >
+                                <td>
+                                    R$ {{ "%.2f"|format(agendamento[7]|float) }}
+                                </td>
 
-                                                    <input
-                                                        type="hidden"
-                                                        name="status"
-                                                        value="concluido"
-                                                    >
+                                <!-- STATUS -->
 
-                                                    <button type="submit">
-                                                        Concluir
-                                                    </button>
+                                <td>
 
-                                                </form>
+                                    <span class="agenda-status {{ agendamento[9] }}">
 
-                                                <!-- CANCELAR -->
+                                        {% if agendamento[9] == "agendado" %}
 
-                                                <form
-                                                    method="POST"
-                                                    action="/status_agendamento/{{ agendamento[0] }}"
-                                                >
+                                            Agendado
 
-                                                    <input
-                                                        type="hidden"
-                                                        name="status"
-                                                        value="cancelado"
-                                                    >
+                                        {% elif agendamento[9] == "concluido" %}
 
-                                                    <button type="submit">
-                                                        Cancelar
-                                                    </button>
+                                            Concluído
 
-                                                </form>
+                                        {% else %}
 
-                                            {% endif %}
+                                            Cancelado
 
-                                            <!-- EXCLUIR -->
+                                        {% endif %}
 
-                                            <form
-                                                method="POST"
-                                                action="/excluir_agendamento/{{ agendamento[0] }}"
-                                                onsubmit="return confirm('Deseja excluir este agendamento?')"
+                                    </span>
+
+                                </td>
+
+                                <!-- AÇÕES -->
+
+                                <td>
+
+                                    <div class="agenda-actions">
+
+                                        <a href="/editar_agendamento/{{ agendamento[0] }}">
+                                            Editar
+                                        </a>
+
+                                        {% if agendamento[9] == "agendado" %}
+
+                                        <!-- CONCLUIR -->
+
+                                        <form
+                                            method="POST"
+                                            action="/status_agendamento/{{ agendamento[0] }}"
+                                        >
+
+                                            <input
+                                                type="hidden"
+                                                name="status"
+                                                value="concluido"
                                             >
 
-                                                <button
-                                                    type="submit"
-                                                    class="agenda-delete"
-                                                >
-                                                    Excluir
-                                                </button>
+                                            <button type="submit">
+                                                Concluir
+                                            </button>
 
-                                            </form>
+                                        </form>
 
-                                        </div>
+                                        <!-- CANCELAR -->
 
-                                    </td>
+                                        <form
+                                            method="POST"
+                                            action="/status_agendamento/{{ agendamento[0] }}"
+                                        >
 
-                                </tr>
+                                            <input
+                                                type="hidden"
+                                                name="status"
+                                                value="cancelado"
+                                            >
+
+                                            <button type="submit">
+                                                Cancelar
+                                            </button>
+
+                                        </form>
+
+                                        {% endif %}
+
+                                        <!-- EXCLUIR -->
+
+                                        <form
+                                            method="POST"
+                                            action="/excluir_agendamento/{{ agendamento[0] }}"
+                                            onsubmit="return confirm('Deseja excluir este agendamento?')"
+                                        >
+
+                                            <button
+                                                type="submit"
+                                                class="agenda-delete"
+                                            >
+                                                Excluir
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
 
                             {% endfor %}
 
@@ -837,7 +1025,7 @@
 
             {% else %}
 
-                <!-- NENHUM AGENDAMENTO -->
+                <!-- AGENDA VAZIA -->
 
                 <div class="agenda-empty">
 
@@ -849,12 +1037,13 @@
 
                         {% if data_selecionada %}
 
-                            Não existem atendimentos cadastrados
-                            para esta data.
+                            Não existem atendimentos
+                            cadastrados para esta data.
 
                         {% else %}
 
-                            Você ainda não possui agendamentos cadastrados.
+                            Você ainda não possui
+                            agendamentos cadastrados.
 
                         {% endif %}
 
@@ -883,61 +1072,352 @@
 
 </div>
 
-<!-- ========================================
-     JAVASCRIPT - MENU MOBILE
-======================================== -->
+<!-- DADOS DO FLASK PARA O CALENDÁRIO -->
+
+<script id="dados-agendamentos" type="application/json">
+[
+    {% for a in agendamentos %}
+    {
+        "id": {{ a[0]|tojson }},
+        "cliente": {{ a[2]|tojson }},
+        "servico": {{ a[4]|tojson }},
+        "data": {{ a[5]|string|tojson }},
+        "horario": {{ a[6]|string|tojson }},
+        "status": {{ a[9]|tojson }}
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+]
+</script>
+
+<!-- JAVASCRIPT DO MENU MOBILE -->
 
 <script>
+document.addEventListener("DOMContentLoaded", function () {
 
     const sidebar = document.getElementById("sidebar");
-
     const toggle = document.getElementById("menuToggle");
-
     const overlay = document.getElementById("sidebarOverlay");
 
+    if (sidebar && toggle && overlay) {
 
-    function abrirMenu() {
+        function abrirMenu() {
+            sidebar.classList.add("sidebar-open");
+            overlay.classList.add("overlay-active");
+        }
 
-        sidebar.classList.add("sidebar-open");
+        function fecharMenu() {
+            sidebar.classList.remove("sidebar-open");
+            overlay.classList.remove("overlay-active");
+        }
 
-        overlay.classList.add("overlay-active");
+        toggle.addEventListener("click", function () {
+
+            if (sidebar.classList.contains("sidebar-open")) {
+                fecharMenu();
+            } else {
+                abrirMenu();
+            }
+
+        });
+
+        overlay.addEventListener("click", fecharMenu);
+
+        document.querySelectorAll(".sidebar a").forEach(function (link) {
+            link.addEventListener("click", fecharMenu);
+        });
 
     }
 
+});
+</script>
 
-    function fecharMenu() {
+<!-- JAVASCRIPT DO CALENDÁRIO -->
 
-        sidebar.classList.remove("sidebar-open");
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
-        overlay.classList.remove("overlay-active");
+    const grid = document.getElementById("calendarioGrid");
 
+    const btnAnterior = document.getElementById("semanaAnterior");
+    const btnAtual = document.getElementById("semanaAtual");
+    const btnProxima = document.getElementById("proximaSemana");
+
+    if (!grid || !btnAnterior || !btnAtual || !btnProxima) {
+        return;
     }
 
+    // RECEBER DADOS DO FLASK
 
-    toggle.addEventListener("click", () => {
+    const elementoDados = document.getElementById("dados-agendamentos");
 
-        if (sidebar.classList.contains("sidebar-open")) {
+    let agendamentos = [];
 
-            fecharMenu();
+    if (elementoDados) {
 
-        } else {
+        try {
 
-            abrirMenu();
+            agendamentos = JSON.parse(elementoDados.textContent);
+
+        } catch (erro) {
+
+            console.error(
+                "Erro ao carregar os agendamentos:",
+                erro
+            );
 
         }
 
+    }
+
+    // NOMES DOS DIAS
+
+    const diasSemana = [
+        "Dom",
+        "Seg",
+        "Ter",
+        "Qua",
+        "Qui",
+        "Sex",
+        "Sáb"
+    ];
+
+    let dataAtual = new Date();
+
+    const mesCalendario = document.getElementById("mesCalendario");
+const periodoCalendario = document.getElementById("periodoCalendario");
+
+function atualizarTituloCalendario() {
+    const inicio = inicioSemana(dataAtual);
+
+    const fim = new Date(inicio);
+    fim.setDate(inicio.getDate() + 6);
+
+    const mesInicio = inicio.toLocaleDateString("pt-BR", {
+        month: "long",
+        year: "numeric"
     });
 
+    const mesFim = fim.toLocaleDateString("pt-BR", {
+        month: "long",
+        year: "numeric"
+    });
 
-    overlay.addEventListener("click", fecharMenu);
+    mesCalendario.textContent =
+        mesInicio === mesFim
+            ? mesInicio.charAt(0).toUpperCase() + mesInicio.slice(1)
+            : mesInicio.charAt(0).toUpperCase() + mesInicio.slice(1) +
+              " / " + mesFim.charAt(0).toUpperCase() + mesFim.slice(1);
 
+    periodoCalendario.textContent =
+        `${inicio.getDate()} a ${fim.getDate()} ` +
+        `de ${fim.toLocaleDateString("pt-BR", { month: "long" })}`;
+}
 
-    document.querySelectorAll(".sidebar a").forEach(link => {
+    // FORMATAR DATA
 
-        link.addEventListener("click", fecharMenu);
+    function formatarData(data) {
+
+        const ano = data.getFullYear();
+
+        const mes = String(
+            data.getMonth() + 1
+        ).padStart(2, "0");
+
+        const dia = String(
+            data.getDate()
+        ).padStart(2, "0");
+
+        return `${ano}-${mes}-${dia}`;
+
+    }
+
+    // ENCONTRAR INÍCIO DA SEMANA
+
+    function inicioSemana(data) {
+
+        const inicio = new Date(data);
+
+        inicio.setHours(12, 0, 0, 0);
+
+        inicio.setDate(
+            inicio.getDate() - inicio.getDay()
+        );
+
+        return inicio;
+
+    }
+
+    // CRIAR CALENDÁRIO
+
+    function criarCalendario() {
+
+        atualizarTituloCalendario();
+
+        grid.innerHTML = "";
+
+        const inicio = inicioSemana(dataAtual);
+
+        const hoje = formatarData(new Date());
+
+        for (let i = 0; i < 7; i++) {
+
+            const dia = new Date(inicio);
+
+            dia.setDate(inicio.getDate() + i);
+
+            const dataFormatada = formatarData(dia);
+
+            // COLUNA DO DIA
+
+            const coluna = document.createElement("div");
+
+            coluna.className = "agenda-calendar-day";
+
+            if (dataFormatada === hoje) {
+                coluna.classList.add("today");
+            }
+
+            // CABEÇALHO DO DIA
+
+            const cabecalho = document.createElement("div");
+
+            cabecalho.className = "agenda-calendar-day-header";
+
+            const nomeDia = document.createElement("span");
+
+            nomeDia.className = "agenda-calendar-weekday";
+
+            nomeDia.textContent = diasSemana[dia.getDay()];
+
+            const numeroDia = document.createElement("span");
+
+            numeroDia.className = "agenda-calendar-number";
+
+            numeroDia.textContent = dia.getDate();
+
+            cabecalho.append(nomeDia, numeroDia);
+
+            coluna.appendChild(cabecalho);
+
+            // FILTRAR AGENDAMENTOS DO DIA
+
+            const eventos = agendamentos
+                .filter(function (a) {
+
+                    return String(a.data).slice(0, 10) === dataFormatada;
+
+                })
+                .sort(function (a, b) {
+
+                    return String(a.horario).localeCompare(
+                        String(b.horario)
+                    );
+
+                });
+
+            // DIA SEM AGENDAMENTOS
+
+            if (eventos.length === 0) {
+
+                const vazio = document.createElement("p");
+
+                vazio.className = "agenda-calendar-empty";
+
+                vazio.textContent = "Sem agendamentos";
+
+                coluna.appendChild(vazio);
+
+            } else {
+
+                // CRIAR EVENTOS
+
+                eventos.forEach(function (evento) {
+
+                    const card = document.createElement("a");
+
+                    card.className = "agenda-calendar-event";
+
+                    if (
+                        ["concluido", "cancelado"].includes(evento.status)
+                    ) {
+                        card.classList.add(evento.status);
+                    }
+
+                    card.href = `/editar_agendamento/${encodeURIComponent(evento.id)}`;
+
+                    // CLIENTE
+
+                    const nome = document.createElement("strong");
+
+                    nome.textContent = evento.cliente || "Sem nome";
+
+                    // HORÁRIO
+
+                    const horario = document.createElement("span");
+
+                    horario.textContent = String(
+                        evento.horario || ""
+                    ).slice(0, 5);
+
+                    // SERVIÇO
+
+                    const servico = document.createElement("span");
+
+                    servico.textContent = evento.servico || "";
+
+                    card.append(nome, horario, servico);
+
+                    coluna.appendChild(card);
+
+                });
+
+            }
+
+            grid.appendChild(coluna);
+
+        }
+
+    }
+
+    // SEMANA ANTERIOR
+
+    btnAnterior.addEventListener("click", function () {
+
+        dataAtual.setDate(
+            dataAtual.getDate() - 7
+        );
+
+        criarCalendario();
 
     });
 
+    // PRÓXIMA SEMANA
+
+    btnProxima.addEventListener("click", function () {
+
+        dataAtual.setDate(
+            dataAtual.getDate() + 7
+        );
+
+        criarCalendario();
+
+    });
+
+    // VOLTAR PARA HOJE
+
+    btnAtual.addEventListener("click", function () {
+
+        dataAtual = new Date();
+
+        criarCalendario();
+
+    });
+
+    // INICIAR CALENDÁRIO
+
+    criarCalendario();
+
+});
 </script>
 
 </body>

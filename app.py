@@ -145,6 +145,34 @@ def home():
 
     agendamentos_hoje = cursor.fetchone()[0]
 
+    # ========================================
+    # FINANCEIRO DOS AGENDAMENTOS
+    # ========================================
+
+    cursor.execute("""
+        SELECT COUNT(*), COALESCE(SUM(valor), 0)
+        FROM agendamentos
+        WHERE usuario = %s AND status = 'concluido'
+    """, (usuario,))
+
+    total_concluidos, faturamento_realizado = cursor.fetchone()
+
+    cursor.execute("""
+        SELECT COUNT(*), COALESCE(SUM(valor), 0)
+        FROM agendamentos
+        WHERE usuario = %s AND status = 'agendado'
+    """, (usuario,))
+
+    total_pendentes, faturamento_pendente = cursor.fetchone()
+
+    cursor.execute("""
+        SELECT COUNT(*)
+        FROM agendamentos
+        WHERE usuario = %s AND status = 'cancelado'
+    """, (usuario,))
+
+    total_cancelados = cursor.fetchone()[0]
+
     cursor.execute("""
         SELECT
             agendamentos.horario,
@@ -187,7 +215,12 @@ def home():
         agendamentos_hoje=agendamentos_hoje,
         proximos_agendamentos=proximos_agendamentos,
         usuario=usuario,
-        dias_restantes=dias_restantes
+        dias_restantes=dias_restantes,
+        total_concluidos=total_concluidos,
+        faturamento_realizado=faturamento_realizado,
+        total_pendentes=total_pendentes,
+        faturamento_pendente=faturamento_pendente,
+        total_cancelados=total_cancelados
     )
 
 
